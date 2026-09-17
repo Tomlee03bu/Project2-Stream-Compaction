@@ -167,11 +167,7 @@ The work-efficient scan does about $O(N)$ work, but it still needs both an up-sw
 
 My implementation also launches the same grid size at every tree level. At deeper levels, fewer threads actually do useful work.
 
-For example, with 8 elements, the useful thread count in the up-sweep becomes:
-
-```text
-4 -> 2 -> 1
-```
+For example, with 8 elements, the useful thread count in the up-sweep becomes 4 -> 2 -> 1
 
 This means the implementation does less arithmetic work, but still has kernel-launch and scheduling overhead.
 
