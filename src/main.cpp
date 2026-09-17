@@ -12,14 +12,33 @@
 #include <stream_compaction/efficient.h>
 #include <stream_compaction/thrust.h>
 #include "testing_helpers.hpp"
-
+#include <string>
+/*
 const int SIZE = 1 << 8; // feel free to change the size of array
+
 const int NPOT = SIZE - 3; // Non-Power-Of-Two
 int *a = new int[SIZE];
 int *b = new int[SIZE];
 int *c = new int[SIZE];
-
+*/
+int BENCHMARK_BLOCK_SIZE = 256;
 int main(int argc, char* argv[]) {
+    int SIZE = 10000000;
+
+
+    if (argc > 1) {
+        SIZE = std::stoi(argv[1]);
+    }
+
+    if (argc > 2) {
+        BENCHMARK_BLOCK_SIZE = std::stoi(argv[2]);
+    }
+
+    int NPOT = SIZE - 3;
+
+    int* a = new int[SIZE];
+    int* b = new int[SIZE];
+    int* c = new int[SIZE];
     // Scan tests
 
     printf("\n");
@@ -147,7 +166,7 @@ int main(int argc, char* argv[]) {
     //printArray(count, c, true);
     printCmpLenResult(count, expectedNPOT, b, c);
 
-    system("pause"); // stop Win32 console from closing on exit
+    //system("pause"); // stop Win32 console from closing on exit
     delete[] a;
     delete[] b;
     delete[] c;
