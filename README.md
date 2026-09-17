@@ -141,9 +141,9 @@ I also saw a separate `DeviceScanInitKernel`.
   <img src="img/thrust_device_scan_init.png" alt="Nsight timeline showing Thrust DeviceScanInitKernel" width="800">
 </p>
 
-The CUDA API timeline also showed `cudaStreamSynchronize` during the scan. After the scan, `thrust::copy` appeared with `cudaMemcpyAsync`.
+The CUDA API timeline showed `cudaStreamSynchronize` while the scan was running, meaning that the CPU waited for the GPU scan work to finish. After the scan completed, Nsight showed a `cudaFree` call. A separate `thrust::copy` operation later appeared with `cudaMemcpyAsync`, showing that the copy happened separately from the scan itself.
 
-This suggests that Thrust breaks the scan into multiple internal GPU stages instead of using one simple kernel.
+This suggests that Thrust performs the scan using multiple internal GPU stages rather than one simple kernel.
 
 ## Reasoning for our results
 
@@ -193,7 +193,7 @@ For Thrust, the Nsight timeline shows several internal scan stages and synchroni
 
 Thrust performed best for large arrays.
 
-Its scan implementation is much more optimized than my straightforward CUDA versions and likely makes better use of shared memory, memory access patterns, and launch configuration.
+Its scan implementation is much more optimized than my straightforward CUDA versions and likely uses better memory access patterns and a more optimized launch strategy.
 
 Overall, these results show that lower theoretical work does not always mean lower runtime on the GPU. Memory access, synchronization, launch overhead, and thread utilization also matter.
 
