@@ -132,13 +132,13 @@ I also used NVIDIA Nsight Systems to look at what happens inside `thrust::exclus
 During the Thrust scan, Nsight showed an internal `DeviceScanKernel`.
 
 <p align="center">
-  <img src="images/thrust_device_scan.png" alt="Nsight timeline showing Thrust DeviceScanKernel" width="800">
+  <img src="img/thrust_device_scan.png" alt="Nsight timeline showing Thrust DeviceScanKernel" width="800">
 </p>
 
 I also saw a separate `DeviceScanInitKernel`.
 
 <p align="center">
-  <img src="images/thrust_device_scan_init.png" alt="Nsight timeline showing Thrust DeviceScanInitKernel" width="800">
+  <img src="img/thrust_device_scan_init.png" alt="Nsight timeline showing Thrust DeviceScanInitKernel" width="800">
 </p>
 
 The CUDA API timeline also showed `cudaStreamSynchronize` during the scan. After the scan, `thrust::copy` appeared with `cudaMemcpyAsync`.
